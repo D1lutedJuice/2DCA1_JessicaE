@@ -2,18 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     
      //variables
          [SerializeField] private float speed;
          [SerializeField] private int direction=1;
          [SerializeField] private float JumpHeight;
+         [SerializeField] private int moneyCollected=0;
 
          private Animator _animator;
          private Rigidbody2D _rigidbody;
          private bool isJumping= false;
          private int JumpCount= 0;
+         
 
 
     // Start is called before the first frame update
@@ -25,6 +27,7 @@ public class NewBehaviourScript : MonoBehaviour
 
         _animator.SetFloat("Move X",0);
         _animator.SetFloat("Move Y",1);
+
 
     }
 
@@ -84,5 +87,12 @@ public class NewBehaviourScript : MonoBehaviour
             isJumping=false;
             JumpCount=0;
         }
+    }
+
+     public void AddMoney()
+    {
+        moneyCollected++;
+        Debug.Log(moneyCollected);
+
     }
 }
