@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
          private Rigidbody2D _rigidbody;
          private bool isJumping= false;
          private int JumpCount= 0;
+
+         Vector2 startPos;
          
 
 
@@ -24,6 +26,7 @@ public class PlayerController : MonoBehaviour
         //initialise component
        _animator = GetComponent<Animator>();
        _rigidbody= GetComponent<Rigidbody2D>();
+       startPos = transform.position; //setting the start pos
 
         _animator.SetFloat("Move X",0);
         _animator.SetFloat("Move Y",1);
@@ -77,6 +80,10 @@ public class PlayerController : MonoBehaviour
             _animator.SetFloat("Move X",1);
             _animator.SetFloat("Move Y",1);
         }
+    }
+
+    public void Die() {
+        transform.position= startPos;
     }
 
 
