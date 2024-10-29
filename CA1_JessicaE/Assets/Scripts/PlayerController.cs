@@ -40,9 +40,11 @@ public class PlayerController : MonoBehaviour
         //used code from our platformer game example
         //basic movement - gets horizontal input and updates pos x based on speed
         float moveby= Input.GetAxis("Horizontal");
-        Vector2 position= transform.position;
-        position.x += speed * moveby * Time.deltaTime;
-        transform.position= position;
+         
+         //changed the movement to velocity because my player kept sticking to walls so changing this helped me fix it because i can now use physics materials
+         //this helped me get the idea of velocity movement https://connorgamedev.medium.com/day-108-player-movement-for-a-2d-platformer-a6bfa4fd5839
+         //updates horizontal movement while leaving vertical movememnt unchanged allowing for jump to work
+         _rigidbody.velocity = new Vector2(moveby * speed, _rigidbody.velocity.y);
 
          if(moveby !=  0)
         {
@@ -82,6 +84,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+    // used this video  help https://www.youtube.com/watch?v=LTpvfxYOPlU
     public void Die() {
         transform.position= startPos;
     }
