@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     
-   [SerializeField] TMP_Text MoneyText;
+   [SerializeField] TMP_Text FishText;
     [SerializeField] private Image[] Images;
 
     private static UIManager instance;
@@ -28,9 +28,9 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void setMoneyCollected(int numCollected, int total)
+    public void setFishCollected(int numCollected, int total)
     {
-        MoneyText.text = numCollected.ToString() + "/"+total.ToString();
+        FishText.text = numCollected.ToString() + "/"+total.ToString();
     }
 
     

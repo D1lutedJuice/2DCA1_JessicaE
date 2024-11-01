@@ -15,16 +15,16 @@ public class Collectable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+      
         
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag== "Player" && this.tag=="Money")
+        if(collision.gameObject.tag== "Player" && this.tag=="Fish")
         {
             Destroy(this.gameObject);
-            player.AddMoney();
+            player.AddFish();
         }
     }
 }

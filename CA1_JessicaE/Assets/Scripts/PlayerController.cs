@@ -9,14 +9,14 @@ public class PlayerController : MonoBehaviour
          [SerializeField] private float speed;
          [SerializeField] private int direction=1;
          [SerializeField] private float JumpHeight;
-         [SerializeField] private int moneyCollected=0;
+         [SerializeField] private int fishCollected=0;
 
          private Animator _animator;
          private Rigidbody2D _rigidbody;
          private bool isJumping= false;
          private int JumpCount= 0;
 
-         private int totalMoney= 0;
+         private int totalFish= 0;
 
          Vector2 startPos;
          
@@ -33,8 +33,8 @@ public class PlayerController : MonoBehaviour
         _animator.SetFloat("Move X",0);
         _animator.SetFloat("Move Y",1);
 
-        totalMoney = GameObject.FindGameObjectsWithTag("Money").Length;
-        UIManager.Instance.setMoneyCollected(0, totalMoney);
+        totalFish = GameObject.FindGameObjectsWithTag("Fish").Length;
+        UIManager.Instance.setFishCollected(0, totalFish);
            
 
     }
@@ -105,11 +105,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-     public void AddMoney()
+     public void AddFish()
     {
-        moneyCollected++;
-        Debug.Log(moneyCollected);
-         UIManager.Instance.setMoneyCollected(moneyCollected, totalMoney);
+        fishCollected++;
+        Debug.Log(fishCollected);
+         UIManager.Instance.setFishCollected(fishCollected, totalFish);
 
     }
 }
