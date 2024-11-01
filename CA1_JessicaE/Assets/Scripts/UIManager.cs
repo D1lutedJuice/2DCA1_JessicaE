@@ -8,12 +8,15 @@ public class UIManager : MonoBehaviour
 {
     
    [SerializeField] TMP_Text FishText;
+    
     [SerializeField] private Image[] Images;
 
     [SerializeField] private GameObject tryAgainButton;
+     [SerializeField] private GameObject winRestartButton;
+    [SerializeField] GameObject victoryCondition;
 
 
-    public static UIManager instance;
+    private static UIManager instance;
 
     private UIManager()
     {
@@ -44,9 +47,26 @@ public class UIManager : MonoBehaviour
         tryAgainButton.SetActive(true);
     }
 
+    public void OpenWinScreen()
+    {
+        Time.timeScale = 0;
+        winRestartButton.SetActive(true);
+        
+    }
+
     public void RestartGame()
     {
         Time.timeScale=1;
         SceneManager.LoadScene(0);
+    }
+
+    public void ShowVictoryCondition()
+    {
+        victoryCondition.SetActive(true);
+    }
+
+     public void HideVictoryCondition()
+    {
+        victoryCondition.SetActive(false);
     }
 }

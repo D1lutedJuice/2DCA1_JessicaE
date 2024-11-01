@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
          private Rigidbody2D _rigidbody;
          private bool isJumping= false;
          private int JumpCount= 0;
-
+         private int victoryCondition= 12;
          private int totalFish= 0;
 
          Vector2 startPos;
@@ -91,12 +91,13 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    // used this video  help https://www.youtube.com/watch?v=LTpvfxYOPlU
+   
     public void Die() {
-        //transform.position= startPos;
-        
-        UIManager.instance.OpenEndScreen();
+
+        UIManager.Instance.OpenEndScreen();
     }
+
+
 
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -115,4 +116,21 @@ public class PlayerController : MonoBehaviour
          UIManager.Instance.setFishCollected(fishCollected, totalFish);
 
     }
+
+    public void Finish()
+    {
+        if(fishCollected >= victoryCondition)
+        {
+             UIManager.Instance.OpenWinScreen();
+        }
+        else
+        { 
+             UIManager.Instance.ShowVictoryCondition();
+        
+        }
+    }
+
+     //used this video for help https://www.youtube.com/watch?v=BlK9-U3Rwx8&list=PL986L3_21ogBR4_Bm5KGh_XdT-aOxSSt6&index=5
+
+    
 }
