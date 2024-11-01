@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PlayerController : MonoBehaviour
 {
     
@@ -92,7 +93,9 @@ public class PlayerController : MonoBehaviour
 
     // used this video  help https://www.youtube.com/watch?v=LTpvfxYOPlU
     public void Die() {
-        transform.position= startPos;
+        //transform.position= startPos;
+        
+        UIManager.instance.OpenEndScreen();
     }
 
 
