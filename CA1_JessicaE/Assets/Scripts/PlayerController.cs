@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
          private bool isJumping= false;
          private int JumpCount= 0;
 
+         private int totalMoney= 0;
+
          Vector2 startPos;
          
 
@@ -31,6 +33,9 @@ public class PlayerController : MonoBehaviour
         _animator.SetFloat("Move X",0);
         _animator.SetFloat("Move Y",1);
 
+        totalMoney = GameObject.FindGameObjectsWithTag("Money").Length;
+        UIManager.Instance.setMoneyCollected(0, totalMoney);
+           
 
     }
 
@@ -104,6 +109,7 @@ public class PlayerController : MonoBehaviour
     {
         moneyCollected++;
         Debug.Log(moneyCollected);
+         UIManager.Instance.setMoneyCollected(moneyCollected, totalMoney);
 
     }
 }
