@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
 {
     
    [SerializeField] TMP_Text FishText;
+    [SerializeField] private TMP_Text Countdown;
     
     [SerializeField] private Image[] Images;
 
@@ -69,4 +70,12 @@ public class UIManager : MonoBehaviour
     {
         victoryCondition.SetActive(false);
     }
+
+
+    public void ShowCountdown(float currentTime)
+    {
+         Countdown.text= currentTime.ToString("0");
+         
+    }
+
 }

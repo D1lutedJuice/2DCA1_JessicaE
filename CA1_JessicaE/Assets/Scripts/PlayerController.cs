@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
          private Rigidbody2D _rigidbody;
          private bool isJumping= false;
          private int JumpCount= 0;
-         private int victoryCondition= 12;
+         private int victoryCondition= 16;
          private int totalFish= 0;
 
          Vector2 startPos;

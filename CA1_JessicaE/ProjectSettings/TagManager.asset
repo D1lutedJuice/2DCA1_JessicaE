@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Money
   - Fish
+  - Clock
   layers:
   - Default
   - TransparentFX
@@ -16,7 +17,7 @@ TagManager:
   - Confiner
   - Player
   - Money
-  - 
+  - Clock
   - 
   - 
   - 
