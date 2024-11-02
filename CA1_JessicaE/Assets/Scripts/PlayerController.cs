@@ -65,16 +65,14 @@ public class PlayerController : MonoBehaviour
 
          //used this video for help with double jump https://www.youtube.com/watch?v=2akPDnmSfu8
         
-        if(groundDetected)
-        {
-            doubleJump=false;
-        }
+          
 
         if(groundDetected && Input.GetKeyDown(KeyCode.Space) )
         {
            jump();
+             doubleJump=false;
         }
-        else if (Input.GetKeyDown(KeyCode.Space) && !doubleJump && !groundDetected)
+        else if (Input.GetKeyDown(KeyCode.Space) && !doubleJump && !groundDetected )
         {
            jump();
            doubleJump=true;

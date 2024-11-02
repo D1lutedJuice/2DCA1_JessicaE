@@ -9,7 +9,7 @@ public class Timer : MonoBehaviour
     //variables
     private static Timer instance;
     float currentTime=0f;
-    float startingTime=30f;
+    float startingTime=40f;
 
     float powerUpTime= 15f;
     
