@@ -14,10 +14,15 @@ public class PlayerController : MonoBehaviour
 
          private Animator _animator;
          private Rigidbody2D _rigidbody;
-         private bool isJumping= false;
-         private int JumpCount= 0;
+        
+         private bool doubleJump;
          private int victoryCondition= 16;
          private int totalFish= 0;
+
+         public float groundCheckRadius;
+         public Transform groundCheck;
+         public bool groundDetected;
+         public LayerMask whatIsGround;
 
          Vector2 startPos;
          
@@ -43,6 +48,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        CollisionCheck();
         //used code from our platformer game example
         //basic movement - gets horizontal input and updates pos x based on speed
         float moveby= Input.GetAxis("Horizontal");
@@ -57,18 +63,30 @@ public class PlayerController : MonoBehaviour
             direction = moveby < 0 ? -1 : 1;
         }
 
-        if(JumpCount< 2 && Input.GetKeyDown(KeyCode.Space))
-       {
-        isJumping=true;
-         Debug.Log("Jump");
-        _rigidbody.velocity = Vector3.zero;
-        _rigidbody.AddForce(new Vector2(0, Mathf.Sqrt(-2*Physics2D.gravity.y * JumpHeight)), ForceMode2D.Impulse);
-        JumpCount++;
+         //used this video for help with double jump https://www.youtube.com/watch?v=2akPDnmSfu8
+        
+        if(groundDetected)
+        {
+            doubleJump=false;
+        }
 
-       }
+        if(groundDetected && Input.GetKeyDown(KeyCode.Space) )
+        {
+           jump();
+        }
+        else if (Input.GetKeyDown(KeyCode.Space) && !doubleJump && !groundDetected)
+        {
+           jump();
+           doubleJump=true;
+        }
 
         //calls method that plays animation
         playAnimation (moveby);
+    }
+
+    public void jump()
+    {
+       _rigidbody.velocity= new Vector2(_rigidbody.velocity.x, JumpHeight);
     }
 
 
@@ -91,6 +109,12 @@ public class PlayerController : MonoBehaviour
     }
 
 
+    private void CollisionCheck()
+    {
+
+        groundDetected = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
+
+    }
    
     public void Die() {
 
@@ -100,14 +124,14 @@ public class PlayerController : MonoBehaviour
 
 
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(isJumping)
-        {
-            isJumping=false;
-            JumpCount=0;
-        }
-    }
+   // private void OnCollisionEnter2D(Collision2D collision)
+    //{
+     //   if(isJumping)
+     //   {
+     //       isJumping=false;
+     //       JumpCount=0;
+      //  }
+    //}
 
      public void AddFish()
     {
@@ -117,6 +141,8 @@ public class PlayerController : MonoBehaviour
 
     }
 
+
+      //used this video for help https://www.youtube.com/watch?v=BlK9-U3Rwx8&list=PL986L3_21ogBR4_Bm5KGh_XdT-aOxSSt6&index=5
     public void Finish()
     {
         if(fishCollected >= victoryCondition)
@@ -130,7 +156,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-     //used this video for help https://www.youtube.com/watch?v=BlK9-U3Rwx8&list=PL986L3_21ogBR4_Bm5KGh_XdT-aOxSSt6&index=5
-
+    
+     //used this video for help https://www.youtube.com/watch?v=7hDCL9tNdKc&list=PLPa3cUXF8edKq7r_ty_nAtDuD0_QXB_Kz&index=8
+     private void OnDrawGizmos()
+     {
+        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+     }
     
 }
