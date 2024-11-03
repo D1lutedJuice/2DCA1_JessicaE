@@ -6,11 +6,13 @@ public class PowerUp : MonoBehaviour
 {
      
      [SerializeField] PlayerController player;
+      AudioManager audioManager;
 
     // Start is called before the first frame update
     void Start()
     {
          player=GameObject.Find("Player").GetComponent<PlayerController>();
+          audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         
     }
 
@@ -26,6 +28,7 @@ public class PowerUp : MonoBehaviour
         {
             Destroy(this.gameObject);
             Timer.Instance.AddPowerUpTime();
+            audioManager.PlaySFX(audioManager.powerUp);
         }
     }
 }

@@ -25,8 +25,11 @@ public class PlayerController : MonoBehaviour
          public LayerMask whatIsGround;
 
          Vector2 startPos;
-         
 
+         AudioManager audioManager;
+
+        
+         
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +38,7 @@ public class PlayerController : MonoBehaviour
        _animator = GetComponent<Animator>();
        _rigidbody= GetComponent<Rigidbody2D>();
        startPos = transform.position; //setting the start pos
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
 
         _animator.SetFloat("Move X",0);
         _animator.SetFloat("Move Y",1);
@@ -56,11 +60,14 @@ public class PlayerController : MonoBehaviour
          //changed the movement to velocity because my player kept sticking to walls so changing this helped me fix it because i can now use physics materials
          //this helped me get the idea of velocity movement https://connorgamedev.medium.com/day-108-player-movement-for-a-2d-platformer-a6bfa4fd5839
          //updates horizontal movement while leaving vertical movememnt unchanged allowing for jump to work
-         _rigidbody.velocity = new Vector2(moveby * speed, _rigidbody.velocity.y);
+         
+            _rigidbody.velocity = new Vector2(moveby * speed, _rigidbody.velocity.y);
+          
 
          if(moveby !=  0)
         {
             direction = moveby < 0 ? -1 : 1;
+            
         }
 
          //used this video for help with double jump https://www.youtube.com/watch?v=2akPDnmSfu8
@@ -85,6 +92,7 @@ public class PlayerController : MonoBehaviour
     public void jump()
     {
        _rigidbody.velocity= new Vector2(_rigidbody.velocity.x, JumpHeight);
+       audioManager.PlaySFX(audioManager.jump);
     }
 
 
@@ -98,6 +106,7 @@ public class PlayerController : MonoBehaviour
         {
             _animator.SetFloat("Move X",-1);
             _animator.SetFloat("Move Y",-1);
+           
         }
         else
         {
@@ -116,23 +125,16 @@ public class PlayerController : MonoBehaviour
    
     public void Die() {
 
+        audioManager.PlaySFX(audioManager.death);
         UIManager.Instance.OpenEndScreen();
+        
     }
 
 
 
-
-   // private void OnCollisionEnter2D(Collision2D collision)
-    //{
-     //   if(isJumping)
-     //   {
-     //       isJumping=false;
-     //       JumpCount=0;
-      //  }
-    //}
-
      public void AddFish()
     {
+        audioManager.PlaySFX(audioManager.collect);
         fishCollected++;
         Debug.Log(fishCollected);
          UIManager.Instance.setFishCollected(fishCollected, totalFish);
@@ -146,10 +148,12 @@ public class PlayerController : MonoBehaviour
         if(fishCollected >= victoryCondition)
         {
              UIManager.Instance.OpenWinScreen();
+             audioManager.PlaySFX(audioManager.gameWin);
         }
         else
         { 
              UIManager.Instance.ShowVictoryCondition();
+              audioManager.PlaySFX(audioManager.victoryCondition);
         
         }
     }
