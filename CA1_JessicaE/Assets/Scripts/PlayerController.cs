@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     
      //variables
          [SerializeField] private float speed;
-         [SerializeField] private int direction=1;
+    
          [SerializeField] private float JumpHeight;
          [SerializeField] private int fishCollected=0;
 
@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
          public Transform groundCheck;
          public bool groundDetected;
          public LayerMask whatIsGround;
+         private bool isFacingRight;
 
          Vector2 startPos;
 
@@ -40,12 +41,10 @@ public class PlayerController : MonoBehaviour
        startPos = transform.position; //setting the start pos
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
 
-        _animator.SetFloat("Move X",0);
-        _animator.SetFloat("Move Y",1);
-
         totalFish = GameObject.FindGameObjectsWithTag("Fish").Length;
         UIManager.Instance.setFishCollected(0, totalFish);
            
+        isFacingRight= true;
 
     }
 
@@ -66,8 +65,10 @@ public class PlayerController : MonoBehaviour
 
          if(moveby !=  0)
         {
-            direction = moveby < 0 ? -1 : 1;
-            
+            _animator.SetBool("isRunning", true);
+        }
+        else{
+            _animator.SetBool("isRunning", false);
         }
 
          //used this video for help with double jump https://www.youtube.com/watch?v=2akPDnmSfu8
@@ -76,51 +77,56 @@ public class PlayerController : MonoBehaviour
 
         if(groundDetected && Input.GetKeyDown(KeyCode.Space) )
         {
+           
            jump();
              doubleJump=false;
+             
+            
         }
         else if (Input.GetKeyDown(KeyCode.Space) && !doubleJump && !groundDetected )
         {
+           
            jump();
            doubleJump=true;
+          
         }
 
-        //calls method that plays animation
-        playAnimation (moveby);
+        if(!isFacingRight && moveby > 0)
+        {
+            Flip();
+        }else if(isFacingRight && moveby < 0)
+        {
+            Flip();
+        }
+
+        
     }
 
     public void jump()
     {
+        // used this video for the animation https://www.youtube.com/watch?v=ux80fiJshsc
+         _animator.SetBool("isJumping", !groundDetected);
        _rigidbody.velocity= new Vector2(_rigidbody.velocity.x, JumpHeight);
        audioManager.PlaySFX(audioManager.jump);
     }
 
-
-     private void playAnimation(float moveby)
+    //used this video for help https://www.youtube.com/watch?v=ux80fiJshsc
+    public void Flip()
     {
-        if(moveby ==0)
-        {
-            _animator.SetFloat("Move X",0);
-        }
-        else if (moveby <0)
-        {
-            _animator.SetFloat("Move X",-1);
-            _animator.SetFloat("Move Y",-1);
-           
-        }
-        else
-        {
-            _animator.SetFloat("Move X",1);
-            _animator.SetFloat("Move Y",1);
-        }
+        isFacingRight= !isFacingRight;
+        Vector3 localScale= transform.localScale;
+        localScale.x *= -1f;
+        transform.localScale=localScale;
     }
+
+    
 
 
     private void CollisionCheck()
     {
 
         groundDetected = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
-
+        _animator.SetBool("isJumping", !groundDetected);
     }
    
     public void Die() {
