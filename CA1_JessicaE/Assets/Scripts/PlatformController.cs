@@ -10,9 +10,7 @@ public class PlatformController : MonoBehaviour
     public float speed; //platform speed
     public int startPoint; // starting position
     public Transform[] points; // array of points wich platform needs to move
-
-
-    private int i;
+    private int i; 
 
     void Start()
     {
@@ -41,11 +39,11 @@ public class PlatformController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        collision.transform.SetParent(transform);
+        collision.transform.SetParent(transform);//when player colides with the platform it sets it as the parent allowing player to stay on it
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
-       collision.transform.SetParent(null);
+       collision.transform.SetParent(null); // after leaving platform it sets parent back to null
     }
 
 

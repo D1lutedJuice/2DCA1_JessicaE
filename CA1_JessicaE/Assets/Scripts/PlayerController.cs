@@ -6,9 +6,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     
-     //variables
-         [SerializeField] private float speed;
-    
+          //variables
+         [SerializeField] private float speed; 
          [SerializeField] private float JumpHeight;
          [SerializeField] private int fishCollected=0;
 
@@ -16,9 +15,8 @@ public class PlayerController : MonoBehaviour
          private Rigidbody2D _rigidbody;
         
          private bool doubleJump;
-         private int victoryCondition= 16;
+         private int victoryCondition= 15;
          private int totalFish= 0;
-
          public float groundCheckRadius;
          public Transform groundCheck;
          public bool groundDetected;
@@ -27,7 +25,7 @@ public class PlayerController : MonoBehaviour
 
          Vector2 startPos;
 
-         AudioManager audioManager;
+         AudioManager audioManager; //set the audiomanager so we can call from it
 
         
          
@@ -35,65 +33,58 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //initialise component
+        //initialise components
        _animator = GetComponent<Animator>();
        _rigidbody= GetComponent<Rigidbody2D>();
-       startPos = transform.position; //setting the start pos
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+       audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+       totalFish = GameObject.FindGameObjectsWithTag("Fish").Length;
 
-        totalFish = GameObject.FindGameObjectsWithTag("Fish").Length;
-        UIManager.Instance.setFishCollected(0, totalFish);
+       startPos = transform.position; //setting the start pos
+       
+       UIManager.Instance.setFishCollected(0, totalFish);//calls method setfishcollected and 0 & totalFish as the parameters
            
-        isFacingRight= true;
+       isFacingRight= true;// on start player faces right
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        CollisionCheck();
-        //used code from our platformer game example
-        //basic movement - gets horizontal input and updates pos x based on speed
-        float moveby= Input.GetAxis("Horizontal");
+        CollisionCheck(); //calls this method so we are constantly checking for collision
+
+        float moveby= Input.GetAxis("Horizontal");//gets horizontal input 
          
          //changed the movement to velocity because my player kept sticking to walls so changing this helped me fix it because i can now use physics materials
          //this helped me get the idea of velocity movement https://connorgamedev.medium.com/day-108-player-movement-for-a-2d-platformer-a6bfa4fd5839
          //updates horizontal movement while leaving vertical movememnt unchanged allowing for jump to work
-         
-            _rigidbody.velocity = new Vector2(moveby * speed, _rigidbody.velocity.y);
+         _rigidbody.velocity = new Vector2(moveby * speed, _rigidbody.velocity.y);
           
-
-         if(moveby !=  0)
+         if(moveby !=  0) //if movement is not = to 0
         {
-            _animator.SetBool("isRunning", true);
+            _animator.SetBool("isRunning", true); //sets the is running bool to rue allowing animation to play
         }
-        else{
-            _animator.SetBool("isRunning", false);
+        else
+        {
+            _animator.SetBool("isRunning", false); //otherwise set it to false so it doesnt play
         }
 
          //used this video for help with double jump https://www.youtube.com/watch?v=2akPDnmSfu8
-        
-          
-
-        if(groundDetected && Input.GetKeyDown(KeyCode.Space) )
+        if(groundDetected && Input.GetKeyDown(KeyCode.Space) )//if theres ground detected and player uses space key
+        {
+           jump();//calls jump method 
+             doubleJump=false;//sets doublejump as false meaning player has not used double jump
+        }
+        else if (Input.GetKeyDown(KeyCode.Space) && !doubleJump && !groundDetected )//otherwise if theres no ground detected and player has not used double jump
         {
            
            jump();
-             doubleJump=false;
-             
-            
-        }
-        else if (Input.GetKeyDown(KeyCode.Space) && !doubleJump && !groundDetected )
-        {
-           
-           jump();
-           doubleJump=true;
+           doubleJump=true;//sets double jump as true meaning player used their double jump 
           
         }
 
-        if(!isFacingRight && moveby > 0)
+        if(!isFacingRight && moveby > 0)//if player is moving and is not facing right
         {
-            Flip();
+            Flip();//calls flip method to flip the sprite
         }else if(isFacingRight && moveby < 0)
         {
             Flip();
@@ -104,16 +95,16 @@ public class PlayerController : MonoBehaviour
 
     public void jump()
     {
-        // used this video for the animation https://www.youtube.com/watch?v=ux80fiJshsc
-         _animator.SetBool("isJumping", !groundDetected);
+        // used this video for the jump animation https://www.youtube.com/watch?v=ux80fiJshsc
+         _animator.SetBool("isJumping", !groundDetected);//sets bool that player is jumping to if theres no ground detected
        _rigidbody.velocity= new Vector2(_rigidbody.velocity.x, JumpHeight);
-       audioManager.PlaySFX(audioManager.jump);
+       audioManager.PlaySFX(audioManager.jump);//calls playSFX method from audioManager to play the jump sound each time player jumps
     }
 
     //used this video for help https://www.youtube.com/watch?v=ux80fiJshsc
     public void Flip()
     {
-        isFacingRight= !isFacingRight;
+        isFacingRight= !isFacingRight;//sets the bool to the oposite of what it currently is
         Vector3 localScale= transform.localScale;
         localScale.x *= -1f;
         transform.localScale=localScale;
@@ -124,15 +115,13 @@ public class PlayerController : MonoBehaviour
 
     private void CollisionCheck()
     {
-
         groundDetected = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
-        _animator.SetBool("isJumping", !groundDetected);
+        _animator.SetBool("isJumping", !groundDetected);//sets bool that player is jumping to if theres no ground detected
     }
    
     public void Die() {
-
-        audioManager.PlaySFX(audioManager.death);
-        UIManager.Instance.OpenEndScreen();
+        audioManager.PlaySFX(audioManager.death);//calls method to play the death sound effect
+        UIManager.Instance.OpenEndScreen();//calls method using instance in UIManager to open the end screen.
         
     }
 
@@ -140,10 +129,10 @@ public class PlayerController : MonoBehaviour
 
      public void AddFish()
     {
-        audioManager.PlaySFX(audioManager.collect);
-        fishCollected++;
+        audioManager.PlaySFX(audioManager.collect);//calls method to play the collect sound effect
+        fishCollected++;//for each fish collected adds +1
         Debug.Log(fishCollected);
-         UIManager.Instance.setFishCollected(fishCollected, totalFish);
+         UIManager.Instance.setFishCollected(fishCollected, totalFish);//calls the setFishCollected method and adds the fishcollected, and totalfish to it.
 
     }
 
@@ -151,16 +140,15 @@ public class PlayerController : MonoBehaviour
       //used this video for help https://www.youtube.com/watch?v=BlK9-U3Rwx8&list=PL986L3_21ogBR4_Bm5KGh_XdT-aOxSSt6&index=5
     public void Finish()
     {
-        if(fishCollected >= victoryCondition)
+        if(fishCollected >= victoryCondition)//if the fishcollected is greater or equal to the ammount needed to win
         {
-             UIManager.Instance.OpenWinScreen();
-             audioManager.PlaySFX(audioManager.gameWin);
+             UIManager.Instance.OpenWinScreen();//calls the winScreen method in UIManager
+             audioManager.PlaySFX(audioManager.gameWin);//calls method to play the win sound effect
         }
-        else
+        else // otherwise if it doesnt meet the condition
         { 
-             UIManager.Instance.ShowVictoryCondition();
-              audioManager.PlaySFX(audioManager.victoryCondition);
-        
+             UIManager.Instance.ShowVictoryCondition();//calls method to showVictoryCondition
+             audioManager.PlaySFX(audioManager.victoryCondition);//calls method to play the victory condition sound effect
         }
     }
 

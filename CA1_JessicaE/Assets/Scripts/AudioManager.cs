@@ -6,6 +6,7 @@ public class AudioManager : MonoBehaviour
 {
     //used this video for help https://www.youtube.com/watch?v=N8whM1GjH4w
 
+    //variables for each sound effect so we can call it in other classes
     [SerializeField] AudioSource musicSource;
     [SerializeField] AudioSource SFXSource;
 
@@ -17,20 +18,14 @@ public class AudioManager : MonoBehaviour
     public AudioClip gameWin;
     public AudioClip victoryCondition;
 
-
     private void Start()
     {
+        //on start plays the background music
         musicSource.clip = background;
         musicSource.Play();
     }
-
     public void PlaySFX(AudioClip clip)
     {
-        SFXSource.PlayOneShot(clip);
+        SFXSource.PlayOneShot(clip);//plays the sound effect
     }
-
-
-
-
-   
 }
