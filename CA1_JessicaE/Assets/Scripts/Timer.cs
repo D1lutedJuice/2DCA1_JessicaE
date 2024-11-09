@@ -14,6 +14,7 @@ public class Timer : MonoBehaviour
     
 
     // Start is called before the first frame update
+    //setting instance so we can access timer in other scripts easier 
     void Start()
     {
          instance = this;
@@ -32,13 +33,13 @@ public class Timer : MonoBehaviour
     void Update()
     {
         
-        currentTime -= 1 * Time.deltaTime;
-        UIManager.Instance.ShowCountdown(currentTime);
+        currentTime -= 1 * Time.deltaTime;//decrease time by 1 making countdown
+        UIManager.Instance.ShowCountdown(currentTime);//updates the Ui displaying current time
 
-       if(currentTime<0)
+       if(currentTime<0)// if the time is below 0
          {
-            currentTime= 0;
-            UIManager.Instance.OpenEndScreen();
+            currentTime= 0;//sets time to 0 so it wont go in the minuses
+            UIManager.Instance.OpenEndScreen();//calls endscreen method 
          }
 
         
@@ -46,6 +47,6 @@ public class Timer : MonoBehaviour
 
     public void AddPowerUpTime()
     {
-        currentTime += powerUpTime;
+        currentTime += powerUpTime;//adds the power up time to current time when method called
     }
 }

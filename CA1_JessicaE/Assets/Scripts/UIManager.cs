@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject victoryCondition;
     private static UIManager instance;
 
+     //setting instance so we can access UIManager in other scripts easier 
     public void Start()
     {
         instance = this;
@@ -34,13 +35,13 @@ public class UIManager : MonoBehaviour
     // used this video for help https://www.youtube.com/watch?v=Y-Zt_hxtcUc
     public void OpenEndScreen()
     {
-        Time.timeScale = 0;
+        Time.timeScale = 0;//pauses the game
         tryAgainButton.SetActive(true);//sets the button to active so it appears on screen
     }
 
     public void OpenWinScreen()
     {
-        Time.timeScale = 0;
+        Time.timeScale = 0;//pauses the game
         winRestartButton.SetActive(true);//sets the button to active so it appears on screen
         
     }
@@ -48,7 +49,7 @@ public class UIManager : MonoBehaviour
     public void RestartGame()
     {
         Time.timeScale=1;
-        SceneManager.LoadScene(0);//restarts the scene 0
+        SceneManager.LoadScene(1);//restarts the scene 1
     }
 
     public void ShowVictoryCondition()
@@ -64,7 +65,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowCountdown(float currentTime)
     {
-         Countdown.text= currentTime.ToString("0");//
+         Countdown.text= currentTime.ToString("0");//sets time based on the currentTime
          
     }
 

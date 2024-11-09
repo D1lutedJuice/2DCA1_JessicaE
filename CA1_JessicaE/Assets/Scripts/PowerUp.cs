@@ -11,6 +11,7 @@ public class PowerUp : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+          //initialise components
           player=GameObject.Find("Player").GetComponent<PlayerController>();
           audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }

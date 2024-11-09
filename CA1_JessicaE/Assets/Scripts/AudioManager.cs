@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    //used this video for help https://www.youtube.com/watch?v=N8whM1GjH4w
+    //used this video for help script audio https://www.youtube.com/watch?v=N8whM1GjH4w
+    
 
     //variables for each sound effect so we can call it in other classes
     [SerializeField] AudioSource musicSource;

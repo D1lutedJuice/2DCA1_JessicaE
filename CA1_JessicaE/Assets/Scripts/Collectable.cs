@@ -9,7 +9,8 @@ public class Collectable : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {        
-         player=GameObject.Find("Player").GetComponent<PlayerController>();
+         player=GameObject.Find("Player").GetComponent<PlayerController>();// Find the gameobject Player in the scene and get its PlayerController component
+    
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

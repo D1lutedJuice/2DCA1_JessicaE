@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
          private Rigidbody2D _rigidbody;
         
          private bool doubleJump;
-         private int victoryCondition= 15;
+         private int victoryCondition= 15;//15 fish to collect
          private int totalFish= 0;
          public float groundCheckRadius;
          public Transform groundCheck;
@@ -59,9 +59,9 @@ public class PlayerController : MonoBehaviour
          //updates horizontal movement while leaving vertical movememnt unchanged allowing for jump to work
          _rigidbody.velocity = new Vector2(moveby * speed, _rigidbody.velocity.y);
           
-         if(moveby !=  0) //if movement is not = to 0
+         if(moveby !=  0) //if movement is not equal to 0
         {
-            _animator.SetBool("isRunning", true); //sets the is running bool to rue allowing animation to play
+            _animator.SetBool("isRunning", true); //sets the is running bool to true allowing animation to play
         }
         else
         {
@@ -96,8 +96,8 @@ public class PlayerController : MonoBehaviour
     public void jump()
     {
         // used this video for the jump animation https://www.youtube.com/watch?v=ux80fiJshsc
-         _animator.SetBool("isJumping", !groundDetected);//sets bool that player is jumping to if theres no ground detected
-       _rigidbody.velocity= new Vector2(_rigidbody.velocity.x, JumpHeight);
+         _animator.SetBool("isJumping", !groundDetected);//sets bool that player is jumping to the bool of the opposite of grounddetected
+       _rigidbody.velocity= new Vector2(_rigidbody.velocity.x, JumpHeight);//keeps x the same and sets y to jumpheight
        audioManager.PlaySFX(audioManager.jump);//calls playSFX method from audioManager to play the jump sound each time player jumps
     }
 
@@ -105,16 +105,17 @@ public class PlayerController : MonoBehaviour
     public void Flip()
     {
         isFacingRight= !isFacingRight;//sets the bool to the oposite of what it currently is
-        Vector3 localScale= transform.localScale;
-        localScale.x *= -1f;
-        transform.localScale=localScale;
+        Vector3 localScale= transform.localScale;//gets the current scale
+        localScale.x *= -1f;//invert x axis to flip, multiplying by -1  so it doesnt move position
+        transform.localScale=localScale;//apply new scale to flip
     }
 
     
 
-
+     //used this video to make basic collision check https://www.youtube.com/watch?v=7hDCL9tNdKc&list=PLPa3cUXF8edKq7r_ty_nAtDuD0_QXB_Kz&index=9
     private void CollisionCheck()
     {
+        //checks if the character is on the ground if there are overlaps with ground layer
         groundDetected = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
         _animator.SetBool("isJumping", !groundDetected);//sets bool that player is jumping to if theres no ground detected
     }
@@ -132,12 +133,12 @@ public class PlayerController : MonoBehaviour
         audioManager.PlaySFX(audioManager.collect);//calls method to play the collect sound effect
         fishCollected++;//for each fish collected adds +1
         Debug.Log(fishCollected);
-         UIManager.Instance.setFishCollected(fishCollected, totalFish);//calls the setFishCollected method and adds the fishcollected, and totalfish to it.
+        UIManager.Instance.setFishCollected(fishCollected, totalFish);//calls the setFishCollected method and adds the fishcollected, and totalfish to it.
 
     }
 
 
-      //used this video for help https://www.youtube.com/watch?v=BlK9-U3Rwx8&list=PL986L3_21ogBR4_Bm5KGh_XdT-aOxSSt6&index=5
+      //used this video for help with finish https://www.youtube.com/watch?v=BlK9-U3Rwx8&list=PL986L3_21ogBR4_Bm5KGh_XdT-aOxSSt6&index=5
     public void Finish()
     {
         if(fishCollected >= victoryCondition)//if the fishcollected is greater or equal to the ammount needed to win
@@ -156,7 +157,7 @@ public class PlayerController : MonoBehaviour
      //used this video for help https://www.youtube.com/watch?v=7hDCL9tNdKc&list=PLPa3cUXF8edKq7r_ty_nAtDuD0_QXB_Kz&index=8
      private void OnDrawGizmos()
      {
-        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);//draws a sphere that helps see the ground check area during editing
      }
     
 }

@@ -7,7 +7,7 @@ public class PlatformController : MonoBehaviour
 {
     //used this video to help with code https://www.youtube.com/watch?v=GtX1p4cwYOc
     //variables
-    public float speed; //platform speed
+    public float speed; 
     public int startPoint; // starting position
     public Transform[] points; // array of points wich platform needs to move
     private int i; 
