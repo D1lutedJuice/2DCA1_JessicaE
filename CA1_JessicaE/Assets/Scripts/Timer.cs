@@ -41,6 +41,11 @@ public class Timer : MonoBehaviour
             currentTime= 0;//sets time to 0 so it wont go in the minuses
             UIManager.Instance.OpenEndScreen();//calls endscreen method 
          }
+         
+       if(currentTime >= 60)//if time is at 60 or greater
+       {
+         currentTime=60;//sets time to 60 making maximum capacity 60
+       }
 
         
     }
